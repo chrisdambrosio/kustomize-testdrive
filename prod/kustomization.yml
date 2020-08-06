@@ -1,0 +1,18 @@
+# https://kubectl.docs.kubernetes.io/pages/reference/kustomize.html
+bases:
+- ../base
+patchesStrategicMerge:
+- replicas.yml
+patchesJSON6902: # http://jsonpatch.com/
+- target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: kuard
+  path: no-debug.yml
+nameSuffix: -prod
+commonLabels:
+  deployment: prod
+images:
+- name: gcr.io/kuar-demo/kuard-amd64
+  newTag: green
